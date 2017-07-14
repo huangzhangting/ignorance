@@ -103,4 +103,21 @@ public class ObjectUtil {
             throw new RuntimeException("object to map error. "+e.getMessage(), e);
         }
     }
+
+    public static List<Map<String, String>> objToStrMapList(List<Map<String, Object>> dataList){
+        if(dataList.isEmpty()){
+            return new ArrayList<>();
+        }
+        List<Map<String, String>> list = new ArrayList<>();
+        for(Map<String, Object> map : dataList){
+            Map<String, String> m = new HashMap<>();
+            for(Map.Entry<String, Object> entry : map.entrySet()){
+                m.put(entry.getKey(), entry.getValue()==null?"":entry.getValue().toString());
+            }
+            list.add(m);
+        }
+
+        return list;
+    }
+
 }

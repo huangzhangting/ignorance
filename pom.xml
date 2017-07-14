@@ -18,10 +18,22 @@
         <java-version>1.8</java-version>
         <jetty-version>9.3.0.M1</jetty-version>
         <spring-version>4.3.9.RELEASE</spring-version>
+        <poi-version>3.14</poi-version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>nom.hzt</groupId>
+                <artifactId>ignorance-component</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>nom.hzt</groupId>
+                <artifactId>ignorance-web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
             <!-- jetty 相关 -->
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
@@ -53,6 +65,13 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring-version}</version>
+                <scope>test</scope>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.glassfish</groupId>
@@ -60,6 +79,57 @@
                 <version>3.0.0</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>1.3.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.4.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml-schemas</artifactId>
+                <version>${poi-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>3.2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>20.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sourceforge.jeval</groupId>
+                <artifactId>jeval</artifactId>
+                <version>0.9.4</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -106,6 +176,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.2</version>
         </dependency>
 
     </dependencies>

@@ -11,5 +11,20 @@
 
     <artifactId>ignorance-test</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>nom.hzt</groupId>
+            <artifactId>ignorance-component</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
