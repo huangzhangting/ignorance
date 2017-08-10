@@ -40,6 +40,13 @@ public class AsyncTimeClientHandler implements CompletionHandler<Void, AsyncTime
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+//        try {
+//            Thread.sleep(30000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         try {
             socketChannel.close();
         } catch (IOException e) {

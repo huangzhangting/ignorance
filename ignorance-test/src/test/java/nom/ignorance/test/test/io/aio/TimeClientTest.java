@@ -10,7 +10,7 @@ import nom.ignorance.test.test.io.Constants;
 public class TimeClientTest {
     public static void main(String[] args){
         new Thread(new AsyncTimeClientHandler(Constants.HOST, Constants.PORT), "AsyncTimeClientHandler-001").start();
-        new Thread(new AsyncTimeClientHandler(Constants.HOST, Constants.PORT), "AsyncTimeClientHandler-002").start();
-        new Thread(new AsyncTimeClientHandler(Constants.HOST, Constants.PORT), "AsyncTimeClientHandler-003").start();
+//        new Thread(new AsyncTimeClientHandler(Constants.HOST, Constants.PORT), "AsyncTimeClientHandler-002").start();
+//        new Thread(new AsyncTimeClientHandler(Constants.HOST, Constants.PORT), "AsyncTimeClientHandler-003").start();
     }
 }
