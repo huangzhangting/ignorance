@@ -19,6 +19,7 @@
         <jetty-version>9.3.0.M1</jetty-version>
         <spring-version>4.3.9.RELEASE</spring-version>
         <poi-version>3.14</poi-version>
+        <proto-source-root>src/test/java/nom/ignorance/test/test/protobuf</proto-source-root>
     </properties>
 
     <dependencyManagement>
@@ -149,6 +150,14 @@
                 <version>0.6.12</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>3.3.1</version>
+            </dependency>
+
+
 
         </dependencies>
     </dependencyManagement>
@@ -207,6 +216,15 @@
 
 
     <build>
+        <extensions>
+            <!-- protobuf-maven-plugin 处理.proto文件需要用到 -->
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.5.0.Final</version>
+            </extension>
+        </extensions>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -255,6 +273,7 @@
                 <executions>
                 </executions>
             </plugin>
+
             <!-- aspectj plugin
             <plugin>
                 <groupId>com.jcabi</groupId>
@@ -308,6 +327,29 @@
             <!--</dependency>-->
             <!--</dependencies>-->
             <!--</plugin>-->
+
+            <!-- protobuf -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <configuration>
+                    <!--<protocExecutable>/usr/local/bin/protoc</protocExecutable>-->
+                    <clearOutputDirectory>false</clearOutputDirectory>
+                    <protoSourceRoot>src/test/java/nom/ignorance/test/test/protobuf</protoSourceRoot>
+                    <outputDirectory>${project.build.testSourceDirectory}</outputDirectory>
+                    <protocArtifact>com.google.protobuf:protoc:3.3.0:exe:${os.detected.classifier}</protocArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
