@@ -1,0 +1,11 @@
+//package model;
+syntax = "proto3";
+option java_package = "nom.ignorance.test.test.protobuf.model";
+option java_outer_classname = "SubscribeReqModel";
+
+message SubscribeReq{
+    int32 reqId = 1;
+    string userName = 2;
+    string productName = 3;
+    string address = 4;
+}
