@@ -9,4 +9,6 @@ public class Constants {
 
     public static final String SEND_DATA = "QUERY TIME ORDER";
 
+    public static final String DELIMITER = "$_";
+
 }
