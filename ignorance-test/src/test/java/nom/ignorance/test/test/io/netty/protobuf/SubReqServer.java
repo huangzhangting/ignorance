@@ -6,7 +6,7 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import nom.ignorance.test.test.io.Common;
+import nom.ignorance.test.test.io.netty.NtCommon;
 import nom.ignorance.test.test.protobuf.model.SubscribeReqModel;
 
 /**
@@ -15,7 +15,7 @@ import nom.ignorance.test.test.protobuf.model.SubscribeReqModel;
 public class SubReqServer {
 
     public void bind() throws Exception{
-        Common.bind(100, new ChannelInitializer<SocketChannel>() {
+        NtCommon.bind(100, new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
