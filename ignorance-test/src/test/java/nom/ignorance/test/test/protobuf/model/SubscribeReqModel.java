@@ -44,14 +44,23 @@ public final class SubscribeReqModel {
         getProductNameBytes();
 
     /**
-     * <code>string address = 4;</code>
+     * <code>repeated string address = 4;</code>
      */
-    java.lang.String getAddress();
+    java.util.List<java.lang.String>
+        getAddressList();
     /**
-     * <code>string address = 4;</code>
+     * <code>repeated string address = 4;</code>
+     */
+    int getAddressCount();
+    /**
+     * <code>repeated string address = 4;</code>
+     */
+    java.lang.String getAddress(int index);
+    /**
+     * <code>repeated string address = 4;</code>
      */
     com.google.protobuf.ByteString
-        getAddressBytes();
+        getAddressBytes(int index);
   }
   /**
    * Protobuf type {@code SubscribeReq}
@@ -68,7 +77,7 @@ public final class SubscribeReqModel {
       reqId_ = 0;
       userName_ = "";
       productName_ = "";
-      address_ = "";
+      address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -115,8 +124,11 @@ public final class SubscribeReqModel {
             }
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
-
-              address_ = s;
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                address_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              address_.add(s);
               break;
             }
           }
@@ -127,6 +139,9 @@ public final class SubscribeReqModel {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          address_ = address_.getUnmodifiableView();
+        }
         makeExtensionsImmutable();
       }
     }
@@ -142,6 +157,7 @@ public final class SubscribeReqModel {
               nom.ignorance.test.test.protobuf.model.SubscribeReqModel.SubscribeReq.class, nom.ignorance.test.test.protobuf.model.SubscribeReqModel.SubscribeReq.Builder.class);
     }
 
+    private int bitField0_;
     public static final int REQID_FIELD_NUMBER = 1;
     private int reqId_;
     /**
@@ -220,37 +236,32 @@ public final class SubscribeReqModel {
     }
 
     public static final int ADDRESS_FIELD_NUMBER = 4;
-    private volatile java.lang.Object address_;
+    private com.google.protobuf.LazyStringList address_;
     /**
-     * <code>string address = 4;</code>
+     * <code>repeated string address = 4;</code>
      */
-    public java.lang.String getAddress() {
-      java.lang.Object ref = address_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        address_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getAddressList() {
+      return address_;
     }
     /**
-     * <code>string address = 4;</code>
+     * <code>repeated string address = 4;</code>
+     */
+    public int getAddressCount() {
+      return address_.size();
+    }
+    /**
+     * <code>repeated string address = 4;</code>
+     */
+    public java.lang.String getAddress(int index) {
+      return address_.get(index);
+    }
+    /**
+     * <code>repeated string address = 4;</code>
      */
     public com.google.protobuf.ByteString
-        getAddressBytes() {
-      java.lang.Object ref = address_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        address_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getAddressBytes(int index) {
+      return address_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -274,8 +285,8 @@ public final class SubscribeReqModel {
       if (!getProductNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, productName_);
       }
-      if (!getAddressBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, address_);
+      for (int i = 0; i < address_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, address_.getRaw(i));
       }
     }
 
@@ -294,8 +305,13 @@ public final class SubscribeReqModel {
       if (!getProductNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, productName_);
       }
-      if (!getAddressBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, address_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < address_.size(); i++) {
+          dataSize += computeStringSizeNoTag(address_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getAddressList().size();
       }
       memoizedSize = size;
       return size;
@@ -319,8 +335,8 @@ public final class SubscribeReqModel {
           .equals(other.getUserName());
       result = result && getProductName()
           .equals(other.getProductName());
-      result = result && getAddress()
-          .equals(other.getAddress());
+      result = result && getAddressList()
+          .equals(other.getAddressList());
       return result;
     }
 
@@ -337,8 +353,10 @@ public final class SubscribeReqModel {
       hash = (53 * hash) + getUserName().hashCode();
       hash = (37 * hash) + PRODUCTNAME_FIELD_NUMBER;
       hash = (53 * hash) + getProductName().hashCode();
-      hash = (37 * hash) + ADDRESS_FIELD_NUMBER;
-      hash = (53 * hash) + getAddress().hashCode();
+      if (getAddressCount() > 0) {
+        hash = (37 * hash) + ADDRESS_FIELD_NUMBER;
+        hash = (53 * hash) + getAddressList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -474,8 +492,8 @@ public final class SubscribeReqModel {
 
         productName_ = "";
 
-        address_ = "";
-
+        address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -498,10 +516,17 @@ public final class SubscribeReqModel {
 
       public nom.ignorance.test.test.protobuf.model.SubscribeReqModel.SubscribeReq buildPartial() {
         nom.ignorance.test.test.protobuf.model.SubscribeReqModel.SubscribeReq result = new nom.ignorance.test.test.protobuf.model.SubscribeReqModel.SubscribeReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.reqId_ = reqId_;
         result.userName_ = userName_;
         result.productName_ = productName_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          address_ = address_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
         result.address_ = address_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -554,8 +579,14 @@ public final class SubscribeReqModel {
           productName_ = other.productName_;
           onChanged();
         }
-        if (!other.getAddress().isEmpty()) {
-          address_ = other.address_;
+        if (!other.address_.isEmpty()) {
+          if (address_.isEmpty()) {
+            address_ = other.address_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureAddressIsMutable();
+            address_.addAll(other.address_);
+          }
           onChanged();
         }
         onChanged();
@@ -583,6 +614,7 @@ public final class SubscribeReqModel {
         }
         return this;
       }
+      private int bitField0_;
 
       private int reqId_ ;
       /**
@@ -748,71 +780,96 @@ public final class SubscribeReqModel {
         return this;
       }
 
-      private java.lang.Object address_ = "";
-      /**
-       * <code>string address = 4;</code>
-       */
-      public java.lang.String getAddress() {
-        java.lang.Object ref = address_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          address_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private com.google.protobuf.LazyStringList address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureAddressIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          address_ = new com.google.protobuf.LazyStringArrayList(address_);
+          bitField0_ |= 0x00000008;
+         }
       }
       /**
-       * <code>string address = 4;</code>
+       * <code>repeated string address = 4;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getAddressList() {
+        return address_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string address = 4;</code>
+       */
+      public int getAddressCount() {
+        return address_.size();
+      }
+      /**
+       * <code>repeated string address = 4;</code>
+       */
+      public java.lang.String getAddress(int index) {
+        return address_.get(index);
+      }
+      /**
+       * <code>repeated string address = 4;</code>
        */
       public com.google.protobuf.ByteString
-          getAddressBytes() {
-        java.lang.Object ref = address_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          address_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getAddressBytes(int index) {
+        return address_.getByteString(index);
       }
       /**
-       * <code>string address = 4;</code>
+       * <code>repeated string address = 4;</code>
        */
       public Builder setAddress(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAddressIsMutable();
+        address_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string address = 4;</code>
+       */
+      public Builder addAddress(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        address_ = value;
+  ensureAddressIsMutable();
+        address_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>string address = 4;</code>
+       * <code>repeated string address = 4;</code>
+       */
+      public Builder addAllAddress(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureAddressIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, address_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string address = 4;</code>
        */
       public Builder clearAddress() {
-        
-        address_ = getDefaultInstance().getAddress();
+        address_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
       /**
-       * <code>string address = 4;</code>
+       * <code>repeated string address = 4;</code>
        */
-      public Builder setAddressBytes(
+      public Builder addAddressBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
-        address_ = value;
+        ensureAddressIsMutable();
+        address_.add(value);
         onChanged();
         return this;
       }
@@ -881,7 +938,7 @@ public final class SubscribeReqModel {
     java.lang.String[] descriptorData = {
       "\n\022SubscribeReq.proto\"U\n\014SubscribeReq\022\r\n\005" +
       "reqId\030\001 \001(\005\022\020\n\010userName\030\002 \001(\t\022\023\n\013product" +
-      "Name\030\003 \001(\t\022\017\n\007address\030\004 \001(\tB;\n&nom.ignor" +
+      "Name\030\003 \001(\t\022\017\n\007address\030\004 \003(\tB;\n&nom.ignor" +
       "ance.test.test.protobuf.modelB\021Subscribe" +
       "ReqModelb\006proto3"
     };
