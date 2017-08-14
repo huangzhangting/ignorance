@@ -1,4 +1,4 @@
-package nom.ignorance.test.test.io.netty;
+package nom.ignorance.test.test.io.netty.line;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;

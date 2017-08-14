@@ -1,4 +1,4 @@
-package nom.ignorance.test.test.io.netty;
+package nom.ignorance.test.test.io.netty.line;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
