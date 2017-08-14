@@ -18,8 +18,15 @@ public class SubReqServer {
         NtCommon.bind(100, new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
+                /**
+                 * TCP半包处理：ProtobufVarint32FrameDecoder
+                 * 还可以继承 LineBasedFrameDecoder || ByteToMessageDecoder 自己处理半包消息
+                 * ProtobufDecoder 只负责解码
+                 *
+                 */
                 ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
                 ch.pipeline().addLast(new ProtobufDecoder(SubscribeReqModel.SubscribeReq.getDefaultInstance()));
+
                 ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                 ch.pipeline().addLast(new ProtobufEncoder());
                 ch.pipeline().addLast(new SubReqServerHandler());
