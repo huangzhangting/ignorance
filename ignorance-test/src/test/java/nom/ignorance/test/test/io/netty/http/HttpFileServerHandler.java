@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
+import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedFile;
 import io.netty.util.CharsetUtil;
 
@@ -83,16 +84,27 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         setContentTypeHeader(response, file);
 
         //如果request中有KEEP ALIVE信息
-        if (HttpHeaderUtil.isKeepAlive(req)) {
-            response.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
-        }
+//        if (HttpHeaderUtil.isKeepAlive(req)) {
+//            response.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+//        }
+        HttpHeaderUtil.setKeepAlive(response, HttpHeaderUtil.isKeepAlive(req));
 
+        // Write the initial line and the header
         ctx.write(response);
 
+        // Write the content
         ChannelFuture sendFileFuture;
         //通过Netty的ChunkedFile对象直接将文件写入发送到缓冲区中
-        sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLen, 8192),
-                ctx.newProgressivePromise());
+//        sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLen, 8192),
+//                ctx.newProgressivePromise());
+        if (ctx.pipeline().get(SslHandler.class) == null) {
+            sendFileFuture = ctx.write(new DefaultFileRegion(randomAccessFile.getChannel(), 0, fileLen),
+                    ctx.newProgressivePromise());
+        } else {
+            sendFileFuture = ctx.write(new HttpChunkedInput(new ChunkedFile(randomAccessFile, 0, fileLen, 8192)),
+                    ctx.newProgressivePromise());
+        }
+
         sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
             @Override
             public void operationProgressed(ChannelProgressiveFuture future,
@@ -112,6 +124,7 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
             }
         });
 
+        // Write the end marker
         ChannelFuture lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
         //如果不支持keep-Alive，服务器端主动关闭请求
         if (!HttpHeaderUtil.isKeepAlive(req)) {
