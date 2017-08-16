@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+Netty WebSocket 时间服务器
+<br>
+<br>
+
+<form onsubmit="return false">
+    <input name="message" value="Netty最佳实践">
+    <br>
+    <br>
+    <input type="button" value="发送WebSocket消息" onclick="send(this.form.message.value)">
+    <br>
+    <br>
+    <hr color="blue"/>
+    <h3>服务器返回消息</h3>
+    <textarea id="respText" style="width: 500px;height: 300px;"></textarea>
+</form>
+
+<script type="text/javascript">
+    var socket;
+    if(!window.WebSocket){
+        window.WebSocket = window.MozWebSocket;
+    }
+    if(window.WebSocket){
+        socket = new WebSocket('ws://localhost:8080/ws');
+        socket.onmessage = function(e){
+            var ta = document.getElementById('respText');
+            ta.value = e.data;
+        };
+        socket.onopen = function(e){
+            var ta = document.getElementById('respText');
+            ta.value = '打开WebSocket服务正常';
+        };
+        socket.onclose = function(e){
+            var ta = document.getElementById('respText');
+            ta.value = 'WebSocket关闭';
+        };
+    }else{
+        alert('抱歉，您的浏览器不支持WebSocket协议');
+    }
+
+    function send(msg){
+        if(!window.WebSocket){
+            return;
+        }
+        if(socket.readyState==WebSocket.OPEN){
+            socket.send(msg);
+        }else{
+            alert('WebSocket连接没有建立成功');
+        }
+    }
+</script>
+
+</body>
+</html>
