@@ -18,7 +18,7 @@
         <java-version>1.8</java-version>
         <jetty-version>9.3.0.M1</jetty-version>
         <spring-version>4.3.9.RELEASE</spring-version>
-        <poi-version>3.14</poi-version>
+        <poi-version>3.16</poi-version>
         <test-root>src/test/java/nom/ignorance/test/test</test-root>
     </properties>
 

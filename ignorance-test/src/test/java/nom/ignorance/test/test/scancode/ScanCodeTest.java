@@ -1,6 +1,7 @@
 package nom.ignorance.test.test.scancode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.xwpf.usermodel.*;
 import org.junit.Test;
 
 import java.io.*;
@@ -29,16 +30,34 @@ public class ScanCodeTest {
 
     }};
 
+    private static final int LINE_LIMIT = 50;
+    private List<String> codeList = new ArrayList<>();
+
+    XWPFDocument doc = new XWPFDocument();
+
 
     @Test
     public void test_scan() throws Exception{
         String path = "D:\\weidai\\project\\weidai\\wpai-common";
+        String docName = "wpai_common.docx";
+        String docPath = "document/"+docName;
+
         File file = new File(path);
 
         if(file.isDirectory()){
             handleDirectory(file);
+
+            //处理结尾的代码
+            handleCode(true);
+
             log.info("代码行数：{}", codeLineCount);
             log.info("大括弧占一行数：{}", onlyBraceCount);
+
+            FileOutputStream out = new FileOutputStream(docPath);
+            doc.write(out);
+            out.close();
+            doc.close();
+
         }else{
             log.info(file.getName() + " 不是文件夹");
         }
@@ -84,13 +103,10 @@ public class ScanCodeTest {
             return;
         }
 
-        //fixme 测试
-        if(name.startsWith("MD5Util")){
-            try {
-                readJava(file);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            readJava(file);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -120,18 +136,20 @@ public class ScanCodeTest {
             if(isDocNote || isMultiNote || isLineNote(line) || isBr(line)){
                 continue;
             }
+            codeList.add(line);
             calculateCodeLineCount(line);
 
-            System.out.println(line);
-
+            //处理代码
+            handleCode(false);
         }
+
     }
 
     private void calculateCodeLineCount(String line){
         String str = line.trim();
         if(str.equals("{") || str.equals("}")){
             onlyBraceCount++;
-            return;
+//            return;
         }
         codeLineCount++;
     }
@@ -150,6 +168,38 @@ public class ScanCodeTest {
     }
     private boolean isBr(String line){
         return line.trim().equals("");
+    }
+
+    /**
+     * 开始处理代码，生成word
+     * @param isEnd
+     */
+    private void handleCode(boolean isEnd){
+        if(codeList.size() >= LINE_LIMIT){
+//            System.out.println("开始处理代码："+codeList.size());
+            handleCodeParagraph();
+        }else{
+            if(isEnd && !codeList.isEmpty()){
+                System.out.println("开始处理结束代码："+codeList.size());
+                handleCodeParagraph();
+            }
+        }
+    }
+
+    private void handleCodeParagraph(){
+        XWPFParagraph p = doc.createParagraph();
+        p.setAlignment(ParagraphAlignment.LEFT);
+//        p.setSpacingBetween(0.01);
+
+        for(String code : codeList) {
+            XWPFRun r = p.createRun();
+            r.setText(code);
+            r.addBreak();
+            r.setFontSize(9); // 单位磅，对应小五
+//            r.setFontFamily();
+        }
+
+        codeList.clear();
     }
 
 }
