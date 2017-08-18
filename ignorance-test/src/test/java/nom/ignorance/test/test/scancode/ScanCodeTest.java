@@ -19,8 +19,8 @@ public class ScanCodeTest {
     private static final String JAVA_FILE = ".java";
 
     private static List<String> ignoreDirectoryList = new ArrayList<String>(){{
-        add("test");
-        add("target");
+//        add("test");
+//        add("target");
 
     }};
 
@@ -29,22 +29,24 @@ public class ScanCodeTest {
         add("UserServiceImpl");
 
     }};
+    private boolean toIgnoreFile = true;
 
     private static final int LINE_LIMIT = 50;
     private List<String> codeList = new ArrayList<>();
 
     XWPFDocument doc = new XWPFDocument();
-    boolean createDoc = true;
+    boolean toCreateDoc = true;
 
     @Test
     public void test_scan() throws Exception{
         String path = "D:/weidai/project/weidai/";
-        String filePath = path + "wpai/wpai-service";
+        String filePath = path + "wpai";
 
         String docName = "wpai.docx";
         String docPath = "document/"+docName;
 
-        createDoc = false;
+        toCreateDoc = false;
+        toIgnoreFile = false;
 
         File file = new File(filePath);
 
@@ -99,7 +101,8 @@ public class ScanCodeTest {
         }
         int idx = name.indexOf(JAVA_FILE);
 //        System.out.println(name+" ---- "+name.substring(0, idx));
-        if(ignoreFileList.contains(name.substring(0, idx)) || ignoreFileList.contains(name)){
+        if(toIgnoreFile &&
+                (ignoreFileList.contains(name.substring(0, idx)) || ignoreFileList.contains(name))){
             log.info("忽略文件：{}", name);
             return;
         }
@@ -188,23 +191,24 @@ public class ScanCodeTest {
     }
 
     private void handleCodeParagraph(){
-        XWPFParagraph p = doc.createParagraph();
-        p.setAlignment(ParagraphAlignment.LEFT);
+        if(toCreateDoc) {
+            XWPFParagraph p = doc.createParagraph();
+            p.setAlignment(ParagraphAlignment.LEFT);
 //        p.setSpacingBetween(0.01);
 
-        for(String code : codeList) {
-            XWPFRun r = p.createRun();
-            r.setText(code);
-            r.addBreak();
-            r.setFontSize(9); // 单位磅，对应小五
+            for (String code : codeList) {
+                XWPFRun r = p.createRun();
+                r.setText(code);
+                r.addBreak();
+                r.setFontSize(9); // 单位磅，对应小五
 //            r.setFontFamily();
+            }
         }
-
         codeList.clear();
     }
 
     private void toCreateDoc(String docPath) throws Exception{
-        if(!createDoc){
+        if(!toCreateDoc){
             log.info("========== 不生成doc文件 ==========");
             doc.close();
             return;
