@@ -34,7 +34,7 @@ public class ScanCodeTest {
     private List<String> codeList = new ArrayList<>();
 
     XWPFDocument doc = new XWPFDocument();
-
+    boolean createDoc = true;
 
     @Test
     public void test_scan() throws Exception{
@@ -43,6 +43,8 @@ public class ScanCodeTest {
 
         String docName = "wpai.docx";
         String docPath = "document/"+docName;
+
+        createDoc = false;
 
         File file = new File(filePath);
 
@@ -55,10 +57,7 @@ public class ScanCodeTest {
             log.info("代码行数：{}", codeLineCount);
             log.info("大括弧占一行数：{}", onlyBraceCount);
 
-            FileOutputStream out = new FileOutputStream(docPath);
-            doc.write(out);
-            out.close();
-            doc.close();
+            toCreateDoc(docPath);
 
         }else{
             log.info(file.getName() + " 不是文件夹");
@@ -202,6 +201,18 @@ public class ScanCodeTest {
         }
 
         codeList.clear();
+    }
+
+    private void toCreateDoc(String docPath) throws Exception{
+        if(!createDoc){
+            log.info("========== 不生成doc文件 ==========");
+            doc.close();
+            return;
+        }
+        FileOutputStream out = new FileOutputStream(docPath);
+        doc.write(out);
+        out.close();
+        doc.close();
     }
 
 }
