@@ -25,8 +25,8 @@ public class ScanCodeTest {
     }};
 
     private static List<String> ignoreFileList = new ArrayList<String>(){{
-        add("OSSUtil");
-        add("SequenceNumberUtil.java");
+        add("UserService");
+        add("UserServiceImpl");
 
     }};
 
@@ -38,11 +38,13 @@ public class ScanCodeTest {
 
     @Test
     public void test_scan() throws Exception{
-        String path = "D:\\weidai\\project\\weidai\\wpai-common";
-        String docName = "wpai_common.docx";
+        String path = "D:/weidai/project/weidai/";
+        String filePath = path + "wpai/wpai-service";
+
+        String docName = "wpai.docx";
         String docPath = "document/"+docName;
 
-        File file = new File(path);
+        File file = new File(filePath);
 
         if(file.isDirectory()){
             handleDirectory(file);
