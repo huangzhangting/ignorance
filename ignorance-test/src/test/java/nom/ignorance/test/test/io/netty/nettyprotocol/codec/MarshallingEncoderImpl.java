@@ -4,17 +4,17 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.marshalling.MarshallerProvider;
 import io.netty.handler.codec.marshalling.MarshallingEncoder;
-import org.jboss.marshalling.Marshaller;
-import org.jboss.marshalling.MarshallerFactory;
 
 /**
  * Created by huangzhangting on 2017/8/21.
  */
-public class MarshallingEncoderImpl {
-    private static final byte[] LENGTH_PLACEHOLDER = new byte[4];
-    Marshaller marshaller;
+public class MarshallingEncoderImpl extends MarshallingEncoder{
+    public MarshallingEncoderImpl(MarshallerProvider provider) {
+        super(provider);
+    }
 
-    public MarshallingEncoderImpl() {
-
+    @Override
+    public void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
+        super.encode(ctx, msg, out);
     }
 }
