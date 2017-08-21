@@ -19,7 +19,7 @@ import nom.ignorance.test.test.io.Constants;
  */
 public class NtCommon {
 
-    public static void bind(int backlog,
+    public static void bind(String host, int backlog,
                             ChannelInitializer<SocketChannel> childHandler) throws Exception{
         EventLoopGroup parentGroup = new NioEventLoopGroup();
         EventLoopGroup childGroup = new NioEventLoopGroup();
@@ -31,16 +31,21 @@ public class NtCommon {
             b.handler(new LoggingHandler(LogLevel.INFO));
             b.childHandler(childHandler);
 
-            ChannelFuture future = b.bind(Constants.PORT).sync();
+            ChannelFuture future = b.bind(host, Constants.PORT).sync();
             future.channel().closeFuture().sync();
         } finally {
             parentGroup.shutdownGracefully();
             childGroup.shutdownGracefully();
         }
     }
+    public static void bind(int backlog,
+                            ChannelInitializer<SocketChannel> childHandler) throws Exception{
+        bind(Constants.HOST, backlog, childHandler);
+    }
     public static void bind(ChannelInitializer<SocketChannel> childHandler) throws Exception{
         bind(1024, childHandler);
     }
+
 
     public static void connect(ChannelInitializer<SocketChannel> handler) throws Exception{
         EventLoopGroup group = new NioEventLoopGroup();
