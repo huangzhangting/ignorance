@@ -2,11 +2,19 @@ package nom.ignorance.test.test.commtest;
 
 import com.google.common.collect.Lists;
 import com.sun.istack.internal.NotNull;
+import nom.ignorance.component.utils.DateUtils;
+import nom.ignorance.component.utils.IoUtil;
+import nom.ignorance.component.utils.http.HttpClientResult;
+import nom.ignorance.component.utils.http.HttpClientUtil;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +81,45 @@ public class CommTest {
                 result += 2;
         }
         System.out.println(result);
+    }
+
+    @Test
+    public void test_list_clone(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("123");
+        list.add("1231");
+        list.add("1232");
+        list.add("1233");
+        list.add("1234");
+
+        list.clone();
+    }
+
+
+    public static void main(String[] args) {
+        String url = "https://mapi.wpai.com/mobile/app/constant";
+        long time = 1000*5*60;
+        Writer writer = IoUtil.getWriter("app_constant.txt");
+        StringBuilder sb = new StringBuilder();
+        while (true){
+            HttpClientResult result = HttpClientUtil.get(url);
+
+            sb.append("time=");
+            sb.append(DateUtils.dateToString(new Date(), DateUtils.yyyy_MM_dd_HH_mm_ss));
+            sb.append(", url=").append(url);
+            sb.append(", data=").append(result.getData());
+            sb.append("\n");
+
+            IoUtil.writeFile(writer, sb.toString());
+
+            try {
+                Thread.sleep(time);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            sb.setLength(0);
+        }
     }
 
 }
