@@ -21,6 +21,7 @@ public class BaseTest {
 
     protected Writer writer;
 
+
     //强制中断程序，测试时，方便使用
     protected void forcedInterrupt(){
         throw new RuntimeException("强制中断程序");
