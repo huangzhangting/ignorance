@@ -9,14 +9,19 @@
 		  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<description>Spring MVC公共配置 </description>
+
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<!-- 隐式地向 Spring 容器注册 context:component-scan 包括了context:annotation-config  -->
     <context:annotation-config />
 	<!-- 开启controller注解支持 -->
 	<context:component-scan base-package="nom.ignorance.web" >
-	  <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	  <!--<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />-->
 	</context:component-scan>
-	
+
+	<mvc:default-servlet-handler />
+	<!-- SpringMVC自动注册 -->
+	<mvc:annotation-driven />
+
 	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 --> 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 指定所上传文件的总大小不能超过200000KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->

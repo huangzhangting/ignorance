@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by huangzhangting on 2017/7/13.
  */
 @Controller
-@RequestMapping
+@RequestMapping("base")
 public class BaseController {
 
     @RequestMapping("test")
