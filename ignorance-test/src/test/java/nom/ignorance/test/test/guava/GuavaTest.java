@@ -1,14 +1,13 @@
 package nom.ignorance.test.test.guava;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.cache.*;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -109,6 +108,37 @@ public class GuavaTest {
         cache.put(key, "put_test");
         System.out.println(cache.get(key));
 
+    }
+
+
+    @Test
+    public void test_order(){
+        List<Integer> list = Lists.newArrayList(1, 2, 4, 6, 7, 8);
+        Ordering<Integer> ordering = Ordering.natural();
+        System.out.println(ordering.min(list));
+        System.out.println(ordering.max(list));
+
+    }
+
+    @Test
+    public void test_coll(){
+        List<User> userList = Lists.newArrayList(
+                new User("1", 0)
+                , new User("2", 1)
+                , new User("3", 0)
+                , new User("4", 1)
+                , new User("5", 1)
+        );
+
+        List<User> newList = ImmutableList.copyOf(Collections2.filter(userList, new Predicate<User>() {
+            @Override
+            public boolean apply(User input) {
+                return input.getSex() == 0;
+            }
+        }));
+
+        System.out.println(userList);
+        System.out.println(newList);
     }
 
 }
