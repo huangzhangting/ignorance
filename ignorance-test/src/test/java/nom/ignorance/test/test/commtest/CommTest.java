@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -122,4 +123,13 @@ public class CommTest {
         }
     }
 
+
+    @Test
+    public void test_Divide(){
+        Integer n = 3;
+        Integer m = 7;
+
+        Object[] objects = {1, "45", 123, "90"};
+
+    }
 }
