@@ -41,6 +41,7 @@ public class MergeSortTest {
 
     @Test
     public void test(){
+        int printLen = 1001;
         int n = 30;
         int[] arr = new int[n];
         int[] temp = new int[n];
@@ -49,7 +50,7 @@ public class MergeSortTest {
             arr[i] = r.nextInt(n);
         }
 
-        if(n < 1001) {
+        if(n < printLen) {
             System.out.println(JSON.toJSONString(arr));
         }
 
@@ -57,7 +58,7 @@ public class MergeSortTest {
         mergeSort(arr, 0, n-1, temp);
         System.out.println("cost time(ms): " + (System.currentTimeMillis() - startTime));
 
-        if(n < 1001) {
+        if(n < printLen) {
             System.out.println(JSON.toJSONString(arr));
         }
 
